@@ -1,48 +1,51 @@
 const btn = document.getElementById("btnAdicionar");
 const input = document.getElementById("inputTarefa");
 const lista = document.getElementById("listaTarefas");
-const msg = document.getElementById("mensagem");
 
 btn.addEventListener("click", function () {
 
-  msg.innerHTML = "";
-
   const texto = input.value;
 
-  // verificar vazio
+  // não deixa vazio
   if (texto == "") {
-    msg.innerHTML = "Tarefa vazia!";
-    msg.className = "text-danger fw-bold";
+    alert("Digite uma tarefa!");
     return;
   }
 
-  // criar li
+  // cria li
   const li = document.createElement("li");
-  li.className = "list-group-item";
 
-  // texto da tarefa
-  li.innerHTML = texto;
+  // checkbox
+  const check = document.createElement("input");
+  check.type = "checkbox";
 
-  // criar botão remover
+  // texto
+  const span = document.createElement("span");
+  span.innerHTML = " " + texto;
+
+  // riscar quando marcar
+  check.addEventListener("change", function () {
+    if (check.checked) {
+      span.style.textDecoration = "line-through";
+    } else {
+      span.style.textDecoration = "none";
+    }
+  });
+
+  // botão remover
   const botao = document.createElement("button");
-  botao.innerHTML = "Remover";
-  botao.className = "btn btn-danger btn-sm float-end";
+  botao.innerHTML = " Remover";
 
-  // evento do botão remover
   botao.addEventListener("click", function () {
     li.remove();
   });
 
-  // colocar botão dentro do li
+  // montar tudo
+  li.appendChild(check);
+  li.appendChild(span);
   li.appendChild(botao);
 
-  // adicionar na lista
   lista.appendChild(li);
 
-  // mensagem sucesso
-  msg.innerHTML = "Tarefa adicionada!";
-  msg.className = "text-success fw-bold";
-
-  // limpar input
   input.value = "";
 });
